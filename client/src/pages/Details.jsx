@@ -1,9 +1,35 @@
+import { useEffect, useState } from "react";
 import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DetailsCard from "../components/DetailsCard";
 import Navbar from "../components/Navbar";
 
 const Details = () => {
+  const { id } = useParams();
+
+  const [user, setUser] = useState(null);
+
+  const getUser = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/user/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+
+    setUser(data.user);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -13,7 +39,7 @@ const Details = () => {
             <h2 className="mb-4">Details</h2>
 
             <div>
-              <Link to="/edit/3" className="btn btn-success">
+              <Link to={`/edit/${user?._id}`} className="btn btn-success">
                 <AiFillEdit />
               </Link>
               <button className="btn btn-danger">
@@ -22,7 +48,7 @@ const Details = () => {
             </div>
           </div>
 
-          <DetailsCard />
+          <DetailsCard user={user} />
         </div>
       </div>
     </>
