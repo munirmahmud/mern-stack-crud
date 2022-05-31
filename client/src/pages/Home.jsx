@@ -1,7 +1,31 @@
+import React, { useEffect } from "react";
 import { AiFillEdit, AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 const Home = () => {
+  const [users, setUsers] = React.useState([]);
+
+  const getUsers = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/user/all`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    setUsers(data.users);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -25,24 +49,33 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Munir</td>
-                <td>munir@gmail.com</td>
-                <td>Develoepr</td>
-                <td>32435345</td>
-                <td>
-                  <button type="button" className="btn btn-info">
-                    <AiOutlineEye />
-                  </button>
-                  <button type="button" className="btn btn-success">
-                    <AiFillEdit />
-                  </button>
-                  <button type="button" className="btn btn-danger">
-                    <AiOutlineDelete />
-                  </button>
-                </td>
-              </tr>
+              {users.length > 0 &&
+                users.map((user, index) => (
+                  <tr key={user._id}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.work}</td>
+                    <td>{user.mobile}</td>
+                    <td>
+                      <Link
+                        to={`/details/${user._id}`}
+                        className="btn btn-info"
+                      >
+                        <AiOutlineEye />
+                      </Link>
+                      <Link
+                        to={`/edit/${user?._id}`}
+                        className="btn btn-success"
+                      >
+                        <AiFillEdit />
+                      </Link>
+                      <button type="button" className="btn btn-danger">
+                        <AiOutlineDelete />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
