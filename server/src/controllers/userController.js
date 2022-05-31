@@ -57,3 +57,24 @@ exports.fetchUserByID = async (req, res) => {
       .json({ message: `Fetching data error: ${error}`, status: 404 });
   }
 };
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const isUserExist = await User.findById(id);
+    if (!isUserExist) {
+      return res
+        .status(409)
+        .json({ message: "Sorry, no user found with this ID", status: 409 });
+    }
+
+    await User.findByIdAndDelete(id);
+
+    res.json({ message: "User has been deleted.", status: 200 });
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: `Fetching data error: ${error}`, status: 404 });
+  }
+};
