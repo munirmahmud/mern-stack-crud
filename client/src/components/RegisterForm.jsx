@@ -20,9 +20,39 @@ const RegisterForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const { name, email, age, mobile, work, address, description } = values;
+
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/user/create`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          age,
+          mobile,
+          work,
+          address,
+          description,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.status === 201) {
+      console.log("Saved user data");
+    } else {
+      console.log("Something is wrong");
+    }
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="row">

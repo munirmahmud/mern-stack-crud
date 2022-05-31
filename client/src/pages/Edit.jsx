@@ -1,7 +1,10 @@
+import { useParams } from "react-router-dom";
 import EditForm from "../components/EditForm";
 import Navbar from "../components/Navbar";
 
 const Edit = () => {
+  const id = useParams();
+  console.log(id);
   return (
     <>
       <Navbar />

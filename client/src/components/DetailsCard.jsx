@@ -1,30 +1,30 @@
-const DetailsCard = () => {
+const DetailsCard = ({ user }) => {
   return (
     <div className="card">
       <div className="card-body">
-        <h5 className="card-title mb-4">Welcome, Munir Mahmud</h5>
+        <h5 className="card-title mb-4">Welcome, {user?.name}</h5>
         <p>
-          <strong>Name:</strong> Munir
+          <strong>Name:</strong> {user?.name}
         </p>
         <p>
-          <strong>Age: </strong> 44
+          <strong>Age: </strong> {user?.age}
         </p>
         <p>
-          <strong>Email:</strong> munir@gmail.com
+          <strong>Email:</strong> {user?.email}
         </p>
         <p>
-          <strong>Occupatoin: </strong> Developer
+          <strong>Occupatoin: </strong> {user?.work}
         </p>
         <p>
-          <strong>Mobile: </strong>235434534
+          <strong>Mobile: </strong>
+          {user?.mobile}
         </p>
         <p>
-          <strong>Location: </strong> Pallabi
+          <strong>Location: </strong> {user?.address}
         </p>
         <p className="card-text">
           <strong>Description: </strong>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          {user?.description}
         </p>
       </div>
     </div>
